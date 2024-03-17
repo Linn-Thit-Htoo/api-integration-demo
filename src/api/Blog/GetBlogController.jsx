@@ -18,6 +18,7 @@ const Get_Blog = async (setData, setShowLoading) => {
     })
     .catch((err) => {
       console.error(err);
+      setShowLoading(false);
     });
 };
 export default Get_Blog;
