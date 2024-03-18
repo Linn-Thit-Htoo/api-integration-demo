@@ -8,7 +8,8 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Get_Blog from "../api/Blog/GetBlogController";
-import { Backdrop, CircularProgress } from "@mui/material";
+import { Backdrop, Button, CircularProgress } from "@mui/material";
+import Delete_Blog from "../api/Blog/DeleteBlogController";
 
 export default function HomePage({ history }) {
   const [data, setData] = useState([]);
@@ -17,6 +18,12 @@ export default function HomePage({ history }) {
   useEffect(() => {
     Get_Blog(setData, setShowLoading);
   }, []);
+
+  const btnDelete = (id) => {
+    if (window.confirm("Are you sure you want to delete?")) {
+      Delete_Blog(id, setShowLoading, setData);
+    }
+  };
   return (
     <>
       <AppBarComponent history={history} />
@@ -28,18 +35,37 @@ export default function HomePage({ history }) {
               <TableCell align="right">Blog Title</TableCell>
               <TableCell align="right">Blog Author</TableCell>
               <TableCell align="right">Blog Content</TableCell>
+              <TableCell align="right">Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {data.map((row) => (
               <TableRow
-                key={row.Blog_Id}
+                key={row.BlogId}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                <TableCell align="right">{row.Blog_Id}</TableCell>
-                <TableCell align="right">{row.Blog_Title}</TableCell>
-                <TableCell align="right">{row.Blog_Author}</TableCell>
-                <TableCell align="right">{row.Blog_Content}</TableCell>
+                <TableCell align="right">{row.BlogId}</TableCell>
+                <TableCell align="right">{row.BlogTitle}</TableCell>
+                <TableCell align="right">{row.BlogAuthor}</TableCell>
+                <TableCell align="right">{row.BlogContent}</TableCell>
+                <TableCell align="right">
+                  <Button
+                    variant="outlined"
+                    onClick={() => history.push(`/blog/edit?id=${row.BlogId}`)}
+                  >
+                    Edit
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    color="error"
+                    sx={{ ml: 3 }}
+                    onClick={() => {
+                      btnDelete(row.BlogId);
+                    }}
+                  >
+                    Delete
+                  </Button>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>

@@ -7,10 +7,10 @@ const Get_Blog = async (setData, setShowLoading) => {
     .get(`${API_ENDPOINT.URL}/Blog`)
     .then((res) => {
       if (res.status === 200) {
-        res.data.map(({ Blog_Id, Blog_Title, Blog_Author, Blog_Content }) => {
+        res.data.map(({ BlogId, BlogTitle, BlogAuthor, BlogContent }) => {
           setData((item) => [
             ...item,
-            { Blog_Id, Blog_Title, Blog_Author, Blog_Content },
+            { BlogId, BlogTitle, BlogAuthor, BlogContent },
           ]);
         });
         setShowLoading(false);
